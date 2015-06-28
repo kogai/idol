@@ -1,6 +1,7 @@
 "use strict"
 
 const restify = require('restify')
+const routers = require('Backend/routers')
 
 var server = restify.createServer({
   name: 'idol-api-server',
@@ -11,7 +12,12 @@ server.use(restify.acceptParser(server.acceptable));
 server.use(restify.queryParser());
 server.use(restify.bodyParser());
 
-server.get('/echo/:name', function (req, res, next) {
+server.get('/test', function(req, res, next){
+  res.send("req.params")
+  return next()
+})
+
+server.get('/echo/:test', function (req, res, next) {
   res.send(req.params);
   return next();
 });
