@@ -1,5 +1,15 @@
 # DB関連のインストール
 
+package "mysql-server" do
+  action :install
+  not_if "which mysql"
+end
+
+service "mysql" do
+  user "root"
+  action :start
+end
+
 
 # サーバー関連のインストール
 
@@ -21,7 +31,7 @@ end
 remote_file "/home/vagrant/.bash_profile" do
   owner "root"
   group "root"
-  source "conf/.bash_profile_development"
+  source ".bash_profile"
   only_if 'test -d /home/vagrant/'
   not_if 'test -e /home/vagrant/.bash_profile'
 end
@@ -29,7 +39,7 @@ end
 remote_file "/root/.bash_profile" do
   owner "root"
   group "root"
-  source "conf/.bash_profile"
+  source ".bash_profile"
   only_if 'test -d /root/'
   not_if 'test -e /root/.bash_profile'
 end

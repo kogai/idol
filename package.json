@@ -15,6 +15,7 @@
     "log4js": "^0.6.26",
     "log4js-extend": "^0.1.2",
     "mysql": "^2.7.0",
+    "passport": "^0.2.2",
     "restify": "^3.0.3",
     "superagent": "^1.2.0"
   }
