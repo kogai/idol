@@ -1,12 +1,15 @@
 module.exports = {
 	get: function(req, res, next){
-		console.log(req.params);
 		res.send('ok')
 		return next()
 	},
+
 	post: function(req, res, next){
-		console.log(req.body);
-		res.send('ok')
+		let mail = req.body.mail
+		let password = req.body.password
+
+		res.send(req.body)
+
 		return next()
 	}
 }
