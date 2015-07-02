@@ -15,7 +15,7 @@ server.use(restify.bodyParser());
 server.get('/account/register', routers.account.register.get)
 server.post('/account/register', routers.account.register.post)
 
-server.get('/echo/:test', function (req, res, next) {
+server.get('/echo/:name/:test', function (req, res, next) {
   res.send(req.params);
   return next();
 });
