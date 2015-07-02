@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node-dev ./Backend/",
+    "start": "node-dev App/server.js & node-dev ./Backend/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -17,6 +17,7 @@
     "knex": "^0.8.6",
     "log4js": "^0.6.26",
     "log4js-extend": "^0.1.2",
+    "moment-timezone": "^0.4.0",
     "mysql": "^2.7.0",
     "node-static": "^0.7.6",
     "nodemailer": "^1.4.0",
