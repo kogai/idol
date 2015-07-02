@@ -1,0 +1,5 @@
+CREATE USER 'idol'@'127.0.0.1' IDENTIFIED BY "MKOZAM4eGFT5ITzZR3ky"
+CREATE DATABASE idol
+GRANT ALL ON idol.* TO 'idol'@'127.0.0.1'
+
+SELECT Host,User,Password FROM mysql.user
