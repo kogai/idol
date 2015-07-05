@@ -4,31 +4,34 @@ const MoronModel = require('moron').MoronModel;
  * @extends MoronModel
  * @constructor
  */
-function User() {
+function Idol() {
   MoronModel.apply(this, arguments);
 }
 
-MoronModel.extend(User);
-module.exports = User;
+MoronModel.extend(Idol);
+module.exports = Idol;
 
 // Table name is the only required property.
-User.tableName = 'user';
+Idol.tableName = 'idol';
 
-User.jsonSchema = {
+Idol.jsonSchema = {
   type: 'object',
-  required: ['userid', 'name', 'mail', 'password'],
+  required: ['name'],
 
   properties: {
-    userid: { type: 'string' },
+    idolid: { type: 'integer' },
     name: {type: 'string', minLength: 1, maxLength: 255},
-    mail: {type: 'string', minLength: 1, maxLength: 255},
-    password: {type: 'string', minLength: 1, maxLength: 255},
+		parameters: {
+			stress: { type: 'integer' },
+			population: { type: 'integer' },
+			charm: { type: 'integer' },
+		}
   }
 };
 
 /*
 // This object defines the relations to other models.
-User.relationMappings = {
+Idol.relationMappings = {
   owner: {
     relation: MoronModel.OneToOneRelation,
     // The related model. This can be either a MoronModel subclass constructor or an
