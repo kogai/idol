@@ -2,46 +2,124 @@
 
 const util = require('util')
 const uuid = require('uuid')
-const mysql = require('mysql')
-const credential = require('credential.js')
+const bcrypt = require('bcrypt');
+const UserModel = require('Backend/models/User')
+const SALT_WORK_FACTOR = 10
 
 class User{
   constructor(){
-    this.connection = mysql.createConnection(credential.mysql)
+    this.Model = require('Backend/models/User')
   }
 
-  create(name, mail, password){
-    this.connection.connect()
-
-    let queries = "INSERT INTO idol.user (userid, name, mail, password) VALUES ('" + uuid.v1() + "', '" + name + "', '" + mail + "', '" + password + "')"
-    console.log(queries)
-
-    this.connection.query(queries, function(err, rows){
+  create(userData, done){
+    var _self = this
+    bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt){
       if(err){
-        return console.log(err)
+        return done(err)
       }
-      console.log(util.inspect(rows, null, null));
-    })
+      bcrypt.hash(userData.password, salt, function(err, hash){
+        if(err){
+          return done(err)
+        }
 
-    this.connection.end()
+    		_self.Model
+    		.query()
+    		.insert({
+          userid: uuid.v1(),
+          name: userData.name,
+          mail: userData.mail,
+          password: hash
+        })
+    		.then(function(user){
+          done(null, user)
+    		})
+    		.catch(function(err){
+    			return done(err)
+    		})
+      })
+    })
   }
 
   get(userid){
-    this.connection.connect()
-
-    let query = "SELECT userid, name, mail, password FROM idol.user"
-
-    this.connection.query(query, function(err, rows, fields){
-      if(err){
-        return console.log(err)
-      }
-      console.log(util.inspect(rows, null, null));
-      // console.log(util.inspect(fields, null, null));
-    })
-    this.connection.end()
+    // this.connection.connect()
+    //
+    // let query = "SELECT userid, name, mail, password FROM idol.user"
+    //
+    // this.connection.query(query, function(err, rows, fields){
+    //   if(err){
+    //     return console.log(err)
+    //   }
+    //   console.log(util.inspect(rows, null, null));
+    //   // console.log(util.inspect(fields, null, null));
+    // })
+    // this.connection.end()
   }
 }
 
 module.exports = function(){
   return new User()
 }
+
+/*
+"use strict";
+
+var mongoose = require('mongoose');
+var mongodb = require('common/makeCredential')('mongodb');
+var db = mongoose.createConnection(mongodb);
+
+var Q = require('q');
+var SALT_WORK_FACTOR = require('common/constant').SALT_WORK_FACTOR;
+
+UserSchema.methods.comparePassword = function(candidatePassword, hashedPassword, done) {
+  bcrypt.compare(candidatePassword, hashedPassword, function(err, isMatch) {
+    if (err) {
+      return done(err);
+    }
+    done(null, isMatch);
+  });
+};
+
+
+
+UserSchema.pre('save', function(next) {
+	var _user = this;
+
+	// only hash the password if it has been modified (or is new)
+	if (!_user.isModified('password')){
+    return next();
+  }
+
+	var generateSalt = function() {
+		var d = Q.defer();
+		bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
+			if(err){
+        return next(err);
+      }
+
+			d.resolve(salt);
+		});
+		return d.promise;
+	};
+
+	var hashPassword = function(salt) {
+		var d = Q.defer();
+		bcrypt.hash(_user.password, salt, function(err, hash) {
+			if (err){
+        return next(err);
+      }
+
+			_user.password = hash;
+			d.resolve(hash);
+		});
+		return d.promise;
+	};
+
+	generateSalt()
+	.then(hashPassword)
+	.done(function(hash) {
+		next();
+	});
+});
+
+module.exports = db.model('user', UserSchema);
+*/

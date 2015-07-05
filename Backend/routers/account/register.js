@@ -1,27 +1,20 @@
 "use strict"
 
+const User = require('Backend/classes/User')()
 const UserModel = require('Backend/models/User')
 const log = require('Utils/common/log')
 
 module.exports = {
 	get: function(req, res, next){
-
-		/*
-		*/
 		return next()
 	},
 
 	post: function(req, res, next){
-		UserModel
-		.query()
-		.insert(req.body)
-		.then(function(user){
-			res.send(user)
-		})
-		.catch(function(err){
-			return log.info(err)
-		})
-		.done(function(){
+		User.create(req.body, function(err, newUser){
+			if(err){
+				return log.info(err)
+			}
+			log.info(newUser)
 			return next()
 		})
 	}
