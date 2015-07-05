@@ -1,28 +1,44 @@
-const credential = require('credential.js')
-const knex = require('knex')(credential.mysql);
-const bookshelf = require('bookshelf')(knex);
+const MoronModel = require('moron').MoronModel;
 
-var User = bookshelf.Model.extend({
-	tableName: 'users',
-	hasTimestamps: true,
+/**
+ * @extends MoronModel
+ * @constructor
+ */
+function User() {
+  MoronModel.apply(this, arguments);
+}
 
-	/*
-	initialize: function() {
-		bookshelf.Model.prototype.initialize.apply(this, arguments);
-		this.on('saving', this.hashPassword, this);
-	},
+MoronModel.extend(User);
+module.exports = User;
 
-	hashPassword: function(){
-	 var _this = this;
+// Table name is the only required property.
+User.tableName = 'user';
 
-		return bcrypt.genSaltAsync(10)
-			.then(function(salt) {
-				_this.set('salt', salt);
-				return bcrypt.hashAsync(_this.get('password'), salt);
-			})
-			.then(function(hash) {
-				return _this.set('password', hash);
-			});
-	}
-	*/
-});
+User.jsonSchema = {
+  type: 'object',
+  required: ['userid', 'name', 'mail', 'password'],
+
+  properties: {
+    userid: { type: 'string' },
+    name: {type: 'string', minLength: 1, maxLength: 255},
+    mail: {type: 'string', minLength: 1, maxLength: 255},
+    password: {type: 'string', minLength: 1, maxLength: 255},
+  }
+};
+
+/*
+// This object defines the relations to other models.
+Animal.relationMappings = {
+  owner: {
+    relation: MoronModel.OneToOneRelation,
+    // The related model. This can be either a MoronModel subclass constructor or an
+    // absolute file path to a module that exports one. We use the file path version
+    // here to prevent require loops.
+    modelClass: __dirname + '/Person',
+    join: {
+      from: 'Animal.ownerId',
+      to: 'Person.id'
+    }
+  }
+};
+*/
