@@ -18,7 +18,7 @@ server.use(restify.acceptParser(server.acceptable));
 server.use(restify.queryParser());
 server.use(restify.bodyParser());
 
-server.get('/account/register', routers.account.register.get)
+server.post('/account/login', routers.account.login.post)
 server.post('/account/register', routers.account.register.post)
 
 server.get('/echo/:name/:test', function(req, res, next) {

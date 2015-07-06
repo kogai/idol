@@ -40,19 +40,13 @@ class User{
     })
   }
 
-  get(userid){
-    // this.connection.connect()
-    //
-    // let query = "SELECT userid, name, mail, password FROM idol.user"
-    //
-    // this.connection.query(query, function(err, rows, fields){
-    //   if(err){
-    //     return console.log(err)
-    //   }
-    //   console.log(util.inspect(rows, null, null));
-    //   // console.log(util.inspect(fields, null, null));
-    // })
-    // this.connection.end()
+  comparePassword(candidatePassword, hashedPassword, done){
+    bcrypt.compare(candidatePassword, hashedPassword, function(err, isMatch) {
+      if (err) {
+        return done(err);
+      }
+      done(null, isMatch);
+    });
   }
 }
 
@@ -61,26 +55,6 @@ module.exports = function(){
 }
 
 /*
-"use strict";
-
-var mongoose = require('mongoose');
-var mongodb = require('common/makeCredential')('mongodb');
-var db = mongoose.createConnection(mongodb);
-
-var Q = require('q');
-var SALT_WORK_FACTOR = require('common/constant').SALT_WORK_FACTOR;
-
-UserSchema.methods.comparePassword = function(candidatePassword, hashedPassword, done) {
-  bcrypt.compare(candidatePassword, hashedPassword, function(err, isMatch) {
-    if (err) {
-      return done(err);
-    }
-    done(null, isMatch);
-  });
-};
-
-
-
 UserSchema.pre('save', function(next) {
 	var _user = this;
 
