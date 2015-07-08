@@ -20,6 +20,7 @@ User.jsonSchema = {
 
   properties: {
     userid: { type: 'string' },
+    isVerified: { type: 'tinyint', minLength: 1 },
     name: {type: 'string', minLength: 1, maxLength: 255},
     mail: {type: 'string', minLength: 1, maxLength: 255},
     password: {type: 'string', minLength: 1, maxLength: 255},

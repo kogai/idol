@@ -3,6 +3,8 @@
 const util = require('util')
 const uuid = require('uuid')
 const bcrypt = require('bcrypt');
+
+const log = require('Utils/common/log')
 const UserModel = require('Backend/models/User')
 const SALT_WORK_FACTOR = 10
 
@@ -26,6 +28,7 @@ class User{
     		.query()
     		.insert({
           userid: uuid.v1(),
+          isVerified: false,
           name: userData.name,
           mail: userData.mail,
           password: hash
@@ -38,6 +41,19 @@ class User{
     		})
       })
     })
+  }
+
+  find(user, done){
+		this.Model
+		.query()
+    .where('mail', user.mail)
+    .first()
+		.then(function(fetchedUser){
+      done(null, fetchedUser)
+		})
+		.catch(function(err){
+			return done(err)
+		})
   }
 
   comparePassword(candidatePassword, hashedPassword, done){

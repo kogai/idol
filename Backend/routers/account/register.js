@@ -7,9 +7,17 @@ module.exports = {
 	post: function(req, res, next){
 		User.create(req.body, function(err, newUser){
 			if(err){
-				return log.info(err)
+				return res.send({
+					message: 'アカウント登録が失敗しました。',
+					status: 'ERROR',
+					body: err
+				})
 			}
-			log.info(newUser)
+			res.send({
+				message: 'アカウント登録が成功しました。',
+				status: 'SUCCESS',
+				body: newUser
+			})
 			return next()
 		})
 	}
