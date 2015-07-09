@@ -43,7 +43,7 @@ class User{
     })
   }
 
-  find(user, done){
+  findOne(user, done){
 		this.Model
 		.query()
     .where('mail', user.mail)

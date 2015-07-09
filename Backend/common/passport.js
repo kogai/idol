@@ -13,7 +13,7 @@ var opts = {
 };
 
 var jwt = new JwtStrategy(opts, function(req, payload, done){
-	User.find(payload, function(err, user){
+	User.findOne(payload, function(err, user){
 		if(err){
 			return done(err)
 		}
