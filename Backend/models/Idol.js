@@ -23,6 +23,7 @@ Idol.jsonSchema = {
     name: {type: 'string', minLength: 1, maxLength: 255},
 		parameters: {
 			stress: { type: 'integer' },
+			vitality: { type: 'integer' },
 			population: { type: 'integer' },
 			charm: { type: 'integer' },
 		}
