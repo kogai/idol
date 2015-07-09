@@ -1,9 +1,6 @@
 "use strict"
 
-const objectAssign = require('object-assign')
-
 const passport = require('Backend/common/passport')
-const User = require('Backend/classes/User')()
 const log = require('Utils/common/log')
 
 module.exports = {
